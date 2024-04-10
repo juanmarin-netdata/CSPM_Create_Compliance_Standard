@@ -2,7 +2,6 @@ import requests
 import logging
 from authenticate_cspm import authenticate
 
-
 def list_compliance_requirements(auth_url, PRISMA_URL, username, password, compliance_id):
     try:
         # Obtener el token de autenticación
@@ -22,10 +21,14 @@ def list_compliance_requirements(auth_url, PRISMA_URL, username, password, compl
 
         # Verificar si la respuesta es exitosa
         if response.status_code == 200:
-            print(response.json())
+            requirements = {}
+            for requirement in response.json():
+                requirements[requirement['id']] = requirement['name']
+            return requirements
         else:
             logging.error(f"Error durante la solicitud: {response.status_code} - {response.text}")
+            return {}
     except requests.RequestException as e:
         logging.error(f"Error durante API request: {e}")
-
+        return {}
 
