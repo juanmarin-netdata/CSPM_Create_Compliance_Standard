@@ -1,38 +1,22 @@
 import logging
 import config
+from check_compliance_standard import check_and_create_compliance_standard
 from list_compliance_standards import list_compliance_standards
-from add_compliance_standard import add_compliance_standard
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
 
-AUTH_URL = config.AUTH_URL
-USERNAME = config.USERNAME
-PASSWORD = config.PASSWORD
-LIST_COMPLIANCE_STANDARD_URL = config.LIST_COMPLIANCE_STANDARD_URL
+# Llamar a la función para verificar y crear un estándar de cumplimiento
 STANDARD_NAME = config.STANDARD_NAME
 STANDARD_DESCRIPTION = config.STANDARD_DESCRIPTION
-ADD_COMPLIANCE_STANDARD_URL = config.ADD_COMPLIANCE_STANDARD_URL
+standard_id = check_and_create_compliance_standard(STANDARD_NAME, STANDARD_DESCRIPTION)
 
-# Ejecutar la función para listar los estándares de cumplimiento
-try:
-    standards = list_compliance_standards(AUTH_URL, LIST_COMPLIANCE_STANDARD_URL, USERNAME, PASSWORD)
+if standard_id:
+    logging.info(f"ID del estándar de cumplimiento '{STANDARD_NAME}': {standard_id}")
 
-    # Imprimir los estándares de cumplimiento si se obtuvieron correctamente
-    if standards:
-        logging.info("Estándares de cumplimiento:")
-        for standard in standards:
-            logging.info(standard)
-except Exception as e:
-    logging.error(f"Error durante la ejecución: {e}")
+# Consultar el listado de estándares de cumplimiento y obtener el ID del estándar creado
+standards = list_compliance_standards(config.AUTH_URL, config.LIST_COMPLIANCE_STANDARD_URL, config.USERNAME, config.PASSWORD)
 
-# Ejemplo de uso de la función para agregar un estándar de cumplimiento
-try:
-    # Agregar un estándar de cumplimiento
-    response = add_compliance_standard(AUTH_URL, ADD_COMPLIANCE_STANDARD_URL, USERNAME, PASSWORD, STANDARD_NAME, STANDARD_DESCRIPTION)
-    # Imprimir la respuesta
-    if response:
-        logging.info("Estándar de cumplimiento agregado:")
-        logging.info(response)
-except Exception as e:
-    logging.error(f"Error durante la solicitud: {e}")
+for standard in standards:
+    if standard['name'] == STANDARD_NAME:
+        logging.info(f"ID del estándar de cumplimiento '{STANDARD_NAME}' obtenido del listado: {standard['id']}")

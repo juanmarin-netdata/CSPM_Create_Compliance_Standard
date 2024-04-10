@@ -23,8 +23,8 @@ def add_compliance_standard(auth_url, api_url, username, password, name, descrip
         # Realizar la solicitud POST para agregar un estándar de cumplimiento
         response = requests.post(api_url, headers=headers, data=payload)
 
-        # Si la respuesta está vacía, se asume que la operación fue exitosa
-        if not response.text:
+        # Verificar si la solicitud fue exitosa (código de estado 2xx)
+        if response.status_code // 100 == 2:
             logging.info(f"Compliance Standard '{name}' creado exitosamente.")
             return None
         else:
@@ -33,5 +33,4 @@ def add_compliance_standard(auth_url, api_url, username, password, name, descrip
     except requests.RequestException as e:
         logging.error(f"Error durante la solicitud: {e}")
         return None
-
 

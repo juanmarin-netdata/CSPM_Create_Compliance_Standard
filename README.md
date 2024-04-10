@@ -20,3 +20,4 @@ Archivos
     *   `name`: Nombre del estándar de cumplimiento.
     *   `cloudType`: Tipos de nubes a las que se aplica el estándar de cumplimiento (por ejemplo, OCI, Alibaba Cloud, AWS, GCP, Azure).
 *   **add_compliance_standard.py**: Script que contiene la función para la creación del Custom Compliance Standard.
+*   **check_compliance_standard**: Script para validar la existencia del Script y continuar o no con la creación. 
