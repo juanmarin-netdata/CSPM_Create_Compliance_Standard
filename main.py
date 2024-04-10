@@ -2,6 +2,7 @@ import logging
 import config
 from check_compliance_standard import check_and_create_compliance_standard
 from list_compliance_standards import list_compliance_standards
+from add_compliance_requirement import add_compliance_requirement
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
@@ -19,4 +20,10 @@ standards = list_compliance_standards(config.AUTH_URL, config.LIST_COMPLIANCE_ST
 
 for standard in standards:
     if standard['name'] == STANDARD_NAME:
-        logging.info(f"ID del estándar de cumplimiento '{STANDARD_NAME}' obtenido del listado: {standard['id']}")
+        compliance_id = standard['id']
+        logging.info(f"ID del estándar de cumplimiento '{STANDARD_NAME}' obtenido del listado: {compliance_id}")
+        break
+
+# Crear los requisitos de cumplimiento
+add_compliance_requirement(config.AUTH_URL, config.PRISMA_URL, config.USERNAME, config.PASSWORD, compliance_id)
+
