@@ -4,6 +4,8 @@ from check_compliance_standard import check_and_create_compliance_standard
 from list_compliance_standards import list_compliance_standards
 from add_compliance_requirement import add_compliance_requirement
 from list_compliance_requirements import list_compliance_requirements
+from add_compliance_section import create_compliance_sections_from_dict
+import pandas as pd
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
@@ -28,6 +30,9 @@ for standard in standards:
 # Crear los requisitos de cumplimiento
 add_compliance_requirement(config.AUTH_URL, config.PRISMA_URL, config.USERNAME, config.PASSWORD, compliance_id)
 
-# Obtener los requeriments 
+# Obtener los requerimientos
 requirements_dict = list_compliance_requirements(config.AUTH_URL, config.PRISMA_URL, config.USERNAME, config.PASSWORD, compliance_id)
-print(requirements_dict)
+logging.info(requirements_dict)
+
+# Crear las secciones de cumplimiento desde un diccionario
+create_compliance_sections_from_dict(config.AUTH_URL, config.PRISMA_URL, config.USERNAME, config.PASSWORD, requirements_dict)

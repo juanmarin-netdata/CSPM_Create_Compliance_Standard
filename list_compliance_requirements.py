@@ -23,7 +23,7 @@ def list_compliance_requirements(auth_url, PRISMA_URL, username, password, compl
         if response.status_code == 200:
             requirements = {}
             for requirement in response.json():
-                requirements[requirement['id']] = requirement['name']
+                requirements[requirement['id']] = requirement['requirementId']
             return requirements
         else:
             logging.error(f"Error durante la solicitud: {response.status_code} - {response.text}")
@@ -31,4 +31,3 @@ def list_compliance_requirements(auth_url, PRISMA_URL, username, password, compl
     except requests.RequestException as e:
         logging.error(f"Error durante API request: {e}")
         return {}
-
